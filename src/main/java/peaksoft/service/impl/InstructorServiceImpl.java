@@ -125,7 +125,7 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public CountStudentByGroup get(Long id) {
         return CountStudentByGroup.builder()
-                .counter(instructorRepository.getAllCount(id))
+                .counterStudent(instructorRepository.getAllCount(id))
                 .build();
     }
 
