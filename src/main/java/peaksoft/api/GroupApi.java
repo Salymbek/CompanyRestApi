@@ -26,7 +26,7 @@ public class GroupApi {
         return groupService.findAll();
     }
 
-    @PostMapping("/{courseId}")
+    @PostMapping("/courseId/{courseId}")
     public SimpleResponse save (@PathVariable Long courseId,
                                 @RequestBody @Valid GroupRequest request){
         return groupService.saveGroup(courseId, request);

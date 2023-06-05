@@ -25,7 +25,7 @@ public class LessonApi {
     }
 
 
-    @PostMapping("/{courseId}")
+    @PostMapping("/courseId/{courseId}")
     public SimpleResponse save(@PathVariable Long courseId,
                                @RequestBody @Valid LessonRequest request){
         return lessonService.saveLesson(courseId, request);

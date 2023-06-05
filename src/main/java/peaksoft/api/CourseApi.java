@@ -28,7 +28,7 @@ public class CourseApi {
         return courseService.findAll();
     }
 
-    @PostMapping("/{companyId}")
+    @PostMapping("/companyId/{companyId}")
     public SimpleResponse save (@PathVariable Long companyId,
                                 @RequestBody @Valid CourseRequest request){
         return courseService.saveCourse(companyId, request);

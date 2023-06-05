@@ -20,7 +20,7 @@ public class TaskApi {
         this.taskService = taskService;
     }
 
-    @PostMapping("/{lessonId}")
+    @PostMapping("/lessonId/{lessonId}")
     public SimpleResponse save(@PathVariable Long lessonId,
                                @RequestBody @Valid TaskRequest request){
         return taskService.saveTask(lessonId, request);

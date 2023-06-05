@@ -26,7 +26,7 @@ public class InstructorApi {
         return instructorService.getAllInstructors();
     }
 
-    @PostMapping("/{courseId}")
+    @PostMapping("/courseId/{courseId}")
     public SimpleResponse saveInstructor(@PathVariable Long courseId, @RequestBody InstructorRequest instructorRequest) {
         return instructorService.saveInstructor(courseId, instructorRequest);
     }
