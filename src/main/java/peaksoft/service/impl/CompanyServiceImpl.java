@@ -89,6 +89,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyInfo getInfo(Long id) {
+
         Company company = companyRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException("Company with id: "+id+" not found!"));
 

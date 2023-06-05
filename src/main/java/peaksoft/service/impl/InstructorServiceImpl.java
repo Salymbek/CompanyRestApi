@@ -104,8 +104,8 @@ public class InstructorServiceImpl implements InstructorService {
         Company company = companyRepository.findById(companyId).orElseThrow(
                 () -> new NotFoundException("Company with id " + companyId + " not found!"));
 
-        company.getInstructors().add(instructor);
-        instructor.getCompanies().add(company);
+        company.addInstructor(instructor);
+        instructor.addCompany(company);
 
         instructorRepository.save(instructor);
         companyRepository.save(company);

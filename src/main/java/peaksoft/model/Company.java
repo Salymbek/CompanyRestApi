@@ -3,6 +3,7 @@ package peaksoft.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.*;
@@ -32,6 +33,13 @@ public class Company {
 
     @ManyToMany(mappedBy = "companies",cascade = {PERSIST,REFRESH,MERGE,DETACH})
     private List<Instructor>instructors;
+
+    public void addInstructor(Instructor instructor){
+        if (instructors == null){
+            instructors = new ArrayList<>();
+        }
+        instructors.add(instructor);
+    }
 
     @OneToMany(mappedBy = "company",cascade = ALL)
     private List<Course>courses;

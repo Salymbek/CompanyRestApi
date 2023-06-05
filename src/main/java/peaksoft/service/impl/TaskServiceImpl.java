@@ -53,7 +53,6 @@ public class TaskServiceImpl implements TaskService {
                 .build();
 
         task.setLesson(lesson);
-        lesson.getTasks().add(task);
 
         return SimpleResponse.builder()
                 .status(HttpStatus.OK)
