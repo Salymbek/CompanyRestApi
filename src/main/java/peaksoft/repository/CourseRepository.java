@@ -21,5 +21,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("select new peaksoft.dto.response.course.CourseResponse(c.id,c.courseName,c.dateOfStart,c.description)from Course c order by c.dateOfStart desc ")
     List<CourseResponse> descSorting();
 
+    boolean existsByCourseName(String name);
+
+
 
 }

@@ -8,6 +8,7 @@ import peaksoft.dto.response.SimpleResponse;
 import peaksoft.dto.response.group.CountStudentByGroup;
 import peaksoft.dto.response.group.GroupInfo;
 import peaksoft.dto.response.group.GroupResponse;
+import peaksoft.exception.AlreadyExistException;
 import peaksoft.exception.NotFoundException;
 import peaksoft.model.Course;
 import peaksoft.model.Group;
@@ -52,6 +53,12 @@ public class GroupServiceImpl implements GroupService {
                 .description(request.description())
                 .build();
 
+        if (groupRepository.existsByGroupName(request.groupName())) {
+            throw new AlreadyExistException(String.format(
+                    "Group with name: %s is exists", request.groupName()
+            ));
+        }
+
         course.getGroups().add(group);
         groupRepository.save(group);
 
@@ -69,8 +76,14 @@ public class GroupServiceImpl implements GroupService {
 
         Group group = groupRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException("Group with id: "+id+" not found!"));
+        List<Course>courses = group.getCourses();
 
+        for (Course course: courses){
+            course.getGroups().remove(group);
+        }
+        group.setCourses(null);
         groupRepository.delete(group);
+
 
         return SimpleResponse.builder()
                 .status(HttpStatus.OK)
@@ -99,7 +112,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public CountStudentByGroup counter(Long groupId) {
         return CountStudentByGroup.builder()
-                .counter(groupRepository.countStudents(groupId).counter())
+                .counterStudent(groupRepository.countStudents(groupId).counterStudent())
                 .build();
     }
 }

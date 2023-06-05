@@ -13,7 +13,7 @@ public record CompanyInfo(
         String phoneNumber,
         List<String> groupNames,
         List<String> courseNames,
-        List<Instructor> instNames,
+        List<String> instNames,
         Integer numberOfStudent
 ) {
 }

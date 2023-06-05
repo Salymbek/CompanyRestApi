@@ -31,9 +31,9 @@ public class InstructorApi {
         return instructorService.saveInstructor(courseId, instructorRequest);
     }
 
-    @GetMapping("/{instructorId}")
-    public InstructorResponse getById(@PathVariable Long instructorId) {
-        return instructorService.getInstructorById(instructorId);
+    @GetMapping("/{id}")
+    public InstructorResponse getById(@PathVariable Long id) {
+        return instructorService.getInstructorById(id);
     }
 
     @PutMapping("/{id}")
@@ -42,9 +42,9 @@ public class InstructorApi {
     }
 
 
-    @DeleteMapping("/{instructorId}")
-    public SimpleResponse deleteById(@PathVariable Long instructorId) {
-        return instructorService.deleteInstructor(instructorId);
+    @DeleteMapping("/{id}")
+    public SimpleResponse deleteById(@PathVariable Long id) {
+        return instructorService.deleteInstructor(id);
     }
 
     @PostMapping("/assign/instructorId/{instructorId}/companyId/{companyId}")

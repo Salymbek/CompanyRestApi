@@ -7,6 +7,7 @@ import peaksoft.dto.request.company.CompanyRequest;
 import peaksoft.dto.response.company.CompanyInfo;
 import peaksoft.dto.response.company.CompanyResponse;
 import peaksoft.dto.response.SimpleResponse;
+import peaksoft.exception.AlreadyExistException;
 import peaksoft.exception.BadCredentialException;
 import peaksoft.exception.NotFoundException;
 import peaksoft.model.Company;
@@ -37,6 +38,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
     @Override
     public SimpleResponse saveCompany(CompanyRequest request){
+
+        if (companyRepository.existsByPhoneNumber(request.phoneNumber())) {
+            throw new AlreadyExistException(String.format(
+                    "Company with phone number: %s is exists", request.phoneNumber()
+            ));
+        }
 
         Company company = Company.builder()
                 .name(request.name())
@@ -73,6 +80,12 @@ public class CompanyServiceImpl implements CompanyService {
     public SimpleResponse update(Long id, CompanyRequest request){
         Company company = companyRepository.findById(id).orElseThrow(
                 ()-> new BadCredentialException("Company is id: "+id+" not found!!!"));
+
+        if (companyRepository.existsByPhoneNumber(request.phoneNumber())) {
+            throw new AlreadyExistException(String.format(
+                    "Company with phone number: %s is exists", request.phoneNumber()
+            ));
+        }
 
         company.setName(request.name());
         company.setCountry(request.country());

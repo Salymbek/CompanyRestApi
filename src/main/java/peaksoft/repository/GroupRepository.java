@@ -17,6 +17,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @Query("select new peaksoft.dto.response.group.GroupInfo(g.id,g.groupName,g.imageLink,g.description)from Group g")
     Optional<GroupInfo> findByGroupId(Long id);
 
+    boolean existsByGroupName(String name);
+
     @Query("select new peaksoft.dto.response.group.CountStudentByGroup ((count (s)))from Group g join g.students s where g.id = :id")
     CountStudentByGroup countStudents (Long id);
 }

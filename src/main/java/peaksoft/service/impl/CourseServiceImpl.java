@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import peaksoft.dto.request.course.CourseRequest;
 import peaksoft.dto.response.SimpleResponse;
 import peaksoft.dto.response.course.CourseResponse;
+import peaksoft.exception.AlreadyExistException;
 import peaksoft.exception.NotFoundException;
 import peaksoft.model.Company;
 import peaksoft.model.Course;
@@ -43,6 +44,11 @@ public class CourseServiceImpl implements CourseService {
     public SimpleResponse saveCourse(Long companyId,CourseRequest request) {
         Company company = companyRepository.findById(companyId).orElseThrow(
                 ()-> new NotFoundException("Company with id: "+companyId+" not found!"));
+        if (courseRepository.existsByCourseName(request.courseName())) {
+            throw new AlreadyExistException(String.format(
+                    "Course with name: %s is exists", request.courseName()
+            ));
+        }
 
         Course course = Course.builder()
                 .courseName(request.courseName())

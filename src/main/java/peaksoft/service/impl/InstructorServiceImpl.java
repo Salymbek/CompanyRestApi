@@ -8,6 +8,7 @@ import peaksoft.dto.response.SimpleResponse;
 import peaksoft.dto.response.group.CountStudentByGroup;
 import peaksoft.dto.response.instructor.GroupByInstructorDetails;
 import peaksoft.dto.response.instructor.InstructorResponse;
+import peaksoft.exception.AlreadyExistException;
 import peaksoft.exception.NotFoundException;
 import peaksoft.model.Company;
 import peaksoft.model.Course;
@@ -38,6 +39,12 @@ public class InstructorServiceImpl implements InstructorService {
     public SimpleResponse saveInstructor(Long courseId, InstructorRequest request) {
         Course course = courseRepository.findById(courseId).orElseThrow(
                 ()-> new NotFoundException("Course with id: "+courseId+" not found!"));
+
+        if (instructorRepository.existsByPhoneNumber(request.phoneNumber())) {
+            throw new AlreadyExistException(String.format(
+                    "Instructor with phone number: %s is exists", request.phoneNumber()
+            ));
+        }
 
         Instructor instructor = Instructor.builder()
                 .firstName(request.firstName())

@@ -6,6 +6,6 @@ import lombok.Builder;
 
 @Builder
 public record CountStudentByGroup(
-        Integer counter
+        Integer counterStudent
 ) {
 }

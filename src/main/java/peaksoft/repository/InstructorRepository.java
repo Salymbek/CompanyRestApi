@@ -23,5 +23,6 @@ public interface InstructorRepository extends JpaRepository<Instructor, Long> {
     int getAllStudentCount(Long instructorId);
     @Query("select g.groupName from Group g join g.courses c join c.instructor i where i.id = ?1")
     List<String> getAllInstructorsDetails(Long id);
+    boolean existsByPhoneNumber(String phoneNumber);
 
 }

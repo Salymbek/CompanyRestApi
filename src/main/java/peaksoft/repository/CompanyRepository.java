@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 
+    boolean existsByPhoneNumber(String phoneNumber);
+
     @Query("select new peaksoft.dto.response.company.CompanyResponse(c.id,c.name,c.country,c.address,c.phoneNumber) from Company c")
     List<CompanyResponse>findAllCompany();
 
@@ -24,7 +26,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query("select g.groupName from Company c join c.courses a join a.groups g where g.id = :companyId")
     List<String> findAllGroups(Long companyId);
     @Query("select i.firstName from Company c join c.instructors i where i.id = :companyId")
-    List<Instructor> findAllInstructors(Long companyId);
+    List<String> findAllInstructors(Long companyId);
     @Query("select count(s.id) from Company c join c.courses cc join cc.groups g join g.students s where c.id=:companyId")
     int studentCounter(@Param("companyId") Long companyId);
 

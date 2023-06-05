@@ -13,6 +13,7 @@ import peaksoft.repository.LessonRepository;
 import peaksoft.repository.TaskRepository;
 import peaksoft.service.TaskService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -46,17 +47,31 @@ public class TaskServiceImpl implements TaskService {
                 ()-> new NotFoundException("Lesson is id: "+lessonId+" not found!!!")
         );
 
-        Task task = Task.builder()
-                .taskName(request.taskName())
-                .taskText(request.taskText())
-                .deadLine(request.deadLine())
-                .build();
+
+
+        Task task = new Task();
+        task.setTaskName(request.taskName());
+        task.setTaskText(request.taskText());
+        LocalDate currentDate = LocalDate.now();
+        task.setDeadLine(currentDate);
+
+
+        if (request.deadLine().isBefore(currentDate)) {
+            throw new IllegalArgumentException("Deadline must be in the future!!!");
+        }
+//                .taskName(request.taskName())
+//                .taskText(request.taskText())
+//                .deadLine(request.deadLine())
+//                .build();
+
+//
 
         task.setLesson(lesson);
+        taskRepository.save(task);
 
         return SimpleResponse.builder()
                 .status(HttpStatus.OK)
-                .message(String.format("Task whit name: %s successfully save!",task.getTaskName()))
+                .message(String.format("Task whit name: %s successfully save!",request.taskName()))
                 .build();
     }
 
@@ -85,8 +100,17 @@ public class TaskServiceImpl implements TaskService {
 
         task.setTaskName(request.taskName());
         task.setTaskText(request.taskText());
-        task.setDeadLine(request.deadLine());
-
+        LocalDate currentDate = LocalDate.now();
+        task.setDeadLine(currentDate);
+//        task.setTaskName(request.taskName());
+//        task.setTaskText(request.taskText());
+//        LocalDate currentDate = LocalDate.now();
+//        LocalDate deadLine = task.getDeadLine();
+//        task.setDeadLine(currentDate);
+//
+        if (request.deadLine().isBefore(currentDate)) {
+            throw new IllegalArgumentException("Deadline must be in the future!!!");
+        }
         taskRepository.save(task);
 
         return SimpleResponse.builder()
